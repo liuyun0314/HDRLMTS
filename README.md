@@ -3,9 +3,9 @@ This repository is for the paper "A Hierarchical Reinforcement Learning-based Al
 
 # Requirements
 - Python 3.11 
-NumPy 
-PyTorch
-simply
-sklearn
+- NumPy 
+- PyTorch
+- simply
+- sklearn
 
 # Run
