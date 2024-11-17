@@ -9,3 +9,4 @@ This repository is for the paper "A Hierarchical Reinforcement Learning-based Al
 - sklearn
 
 # Run
+- Run mian_test.py to perform comparative experiments in the job-shop environments with two dynamic events.
