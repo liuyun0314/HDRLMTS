@@ -55,7 +55,6 @@ def main(algorithms, args):
     results[3] = np.mean(machine_UR, axis=0)
     return results, [WTmean, WTmax, WFmean, machine_UR], test_time
 
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser("Hyperparameter Setting for PPO-discrete")
     parser.add_argument("--max_train_steps", type=int, default=int(1e3),
