@@ -45,9 +45,6 @@ def main(args, seed, model_path, control_agent_path, opt_control_agent_path, opt
     rewards = np.zeros((2, args.max_train_steps))
     agent = Agent(0, args)
     control_agent = PPO(args)
-    ##########################初始化#############################
-    # agent.load_model(os.path.join(args.testModels_dir, 'twoDynamic/HPPO/agent_LSTM.pkl'))
-    # control_agent.load_model(os.path.join(args.testModels_dir, 'twoDynamic/HPPO/controller_agent.pkl'))
     ############################################################
 
     global_replay_buffer = ReplayBuffer(args, args.global_state_dim)
@@ -149,10 +146,6 @@ def main(args, seed, model_path, control_agent_path, opt_control_agent_path, opt
             sim.env.timeout(1)
             sim.env.run()
 
-        # if total_steps == 0:
-        #     control_agent.save_model(opt_control_agent_path, optimi)
-        #     agent.save_model(optimal_model_path, optimi, 0)
-        #     optimi += 1
         if total_steps % args.save_freq == 0:
             control_agent.save_model(control_agent_path, total_steps)
             agent.save_model(model_path, total_steps, 0)
