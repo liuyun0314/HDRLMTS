@@ -40,35 +40,19 @@ def HiPPOS(sim, args):
         sim.dynamic_event()
         sim.machine_failure()
         sim.machine_repair()
-        if sim.env.now == sim.decision_points[0]:
-            sim.decision_points.remove(sim.decision_points[0])
-            global_s, selected_task, idle_machines = Resource_decision(control_agent, sim, global_encoded_data)
-            jobs = sim.tasks_list[selected_task].jobsList
-            if len(jobs) == 0 or len(idle_machines) == 0:
-                if len(sim.decision_points) == 0:
-                    sim.env.timeout(1)
-                else:
-                    sim.env.timeout(sim.decision_points[0] - sim.env.now)
-                sim.env.run()
-                continue
-            state = sim.get_local_state(jobs, sim.machines, sim.env.now)
-            last_action = agent.last_action
-
-            action, action_logprob = agent.select_action(state)
-            agent.last_action = action
-            DR = DRs[action]
-            _ = sim.step(sim.jobs, idle_machines, DR)
-            if len(sim.decision_points) == 0:
-                sim.env.timeout(1)
-            else:
-                sim.env.timeout(sim.decision_points[0] - sim.env.now)
+        global_s, selected_task, idle_machines = Resource_decision(control_agent, sim, global_encoded_data)
+        jobs = sim.tasks_list[selected_task].jobsList
+        if len(jobs) == 0 or len(idle_machines) == 0:
+            sim.env.timeout(1)
             sim.env.run()
-            if sim.env.now not in sim.decision_points:
-                sim.decision_points.append(sim.env.now)
-
-        if len(sim.decision_points) == 0:
-            sim.decision_points.append(sim.env.now)
-        sim.decision_points = sorted(sim.decision_points)
+            continue
+        state = sim.get_local_state(jobs, sim.machines, sim.env.now)
+        action, action_logprob = agent.select_action(state)
+        agent.last_action = action
+        DR = DRs[action]
+        _ = sim.step(sim.jobs, idle_machines, DR)
+        sim.env.timeout(1)
+        sim.env.run()
     WTmean = WT_mean_func(sim.tasks_list[0].jobsList)
     objectives[0] = WTmean
     WTmax = WT_max_func(sim.tasks_list[1].jobsList)
